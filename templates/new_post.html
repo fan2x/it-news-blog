@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Новая статья — {{ super() }}{% endblock %}
+
+{% block content %}
+    <h1>Новая статья</h1>
+    <form method="post">
+        <input type="text" name="title" placeholder="Заголовок" value="{{ request.form.get('title', '') }}">
+        <textarea name="text" rows="10" placeholder="Текст статьи">{{ request.form.get('text', '') }}</textarea>
+        <input type="text" name="tags" placeholder="Теги через запятую: python, веб" value="{{ request.form.get('tags', '') }}">
+        <button type="submit">Опубликовать</button>
+    </form>
+{% endblock %}

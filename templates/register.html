@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация — {{ super() }}{% endblock %}
+
+{% block content %}
+    <h1>Регистрация</h1>
+    <form class="small-form" method="post">
+        <input type="text" name="username" placeholder="Логин">
+        <input type="password" name="password" placeholder="Пароль">
+        <input type="text" name="full_name" placeholder="Имя (необязательно)">
+        <textarea name="about" rows="3" placeholder="О себе (необязательно)"></textarea>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+    <p>Уже есть аккаунт? <a href="{{ url_for('login') }}">Войдите</a></p>
+{% endblock %}

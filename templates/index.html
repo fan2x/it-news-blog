@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Лента — {{ super() }}{% endblock %}
+
+{% block content %}
+    {# Поиск и фильтр по тегу передаются GET-параметрами: /?q=текст, /?tag=python #}
+    <form class="search" method="get" action="{{ url_for('index') }}">
+        <input type="text" name="q" value="{{ q }}" placeholder="Поиск по статьям">
+        <button type="submit">Найти</button>
+    </form>
+
+    {% if q or tag %}
+        <p>
+            {% if q %}Запрос «{{ q }}». {% endif %}
+            {% if tag %}Тег #{{ tag }}. {% endif %}
+            Найдено: {{ posts|length }}. <a href="{{ url_for('index') }}">Сбросить</a>
+        </p>
+    {% endif %}
+
+    {% for post in posts %}
+        <div class="card">
+            <h2><a href="{{ url_for('show_post', post_id=post.id) }}">{{ post.title }}</a></h2>
+            <p class="meta">
+                <a href="{{ url_for('author_page', username=post.author.username) }}">{{ post.author.username }}</a>
+                · {{ post.created_at.strftime('%d.%m.%Y %H:%M') }}
+                · комментариев: {{ post.comments|length }}
+            </p>
+            <p>{{ post.text|truncate(200) }}</p>
+            {% if post.tags %}
+            <p>
+                {% for t in post.tags %}
+                    <a class="tag" href="{{ url_for('index', tag=t.name) }}">#{{ t.name }}</a>
+                {% endfor %}
+            </p>
+            {% endif %}
+        </div>
+    {% else %}
+        <p>Статей пока нет.</p>
+    {% endfor %}
+{% endblock %}
